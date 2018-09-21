@@ -121,13 +121,16 @@ class BalanceScene extends Component {
   }
 
   _handleAppStateChange = nextAppState => {
-    const { alwaysAskPin } = this.props.context
-    if (nextAppState.match(/background/) && alwaysAskPin) {
+    const { alwaysAskPin, loadUserData } = this.props.context
+    if (nextAppState.match(/background/)) {
       this.setState({ accountModalVisible: false })
-      this.props.navigation.navigate('Pin', {
-        testInput: pin => pin === this.props.context.pin,
-        onSuccess: () => {}
-      })
+      if (alwaysAskPin) {
+        this.props.navigation.navigate('Pin', {
+          testInput: pin => pin === this.props.context.pin,
+          onSuccess: () => {}
+        })
+      }
+      loadUserData()
     }
   }
 
